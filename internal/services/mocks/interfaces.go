@@ -5,12 +5,12 @@
 package mock_services
 
 import (
-	dto "project-service/internal/dto"
-	models "project-service/internal/models"
-	repositories "project-service/internal/repositories"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	dto "gitlab.fast-go.ru/fast-go-team/project/internal/dto"
+	models "gitlab.fast-go.ru/fast-go-team/project/internal/models"
+	repositories "gitlab.fast-go.ru/fast-go-team/project/internal/repositories"
 )
 
 // MockProjectService is a mock of ProjectService interface.

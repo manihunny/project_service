@@ -1,10 +1,10 @@
 package dto
 
 import (
-	"project-service/internal/models"
 	"time"
 
 	"github.com/lib/pq"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/models"
 )
 
 // ProjectDTO представляет данные проекта, которые может установить пользователь.

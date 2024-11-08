@@ -1,13 +1,13 @@
 package middleware
 
 import (
-	"auth-service/pkg/authrpc"
 	"log"
 	"net/http"
-	"project-service/config"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"gitlab.fast-go.ru/fast-go-team/auth/pkg/authrpc"
+	"gitlab.fast-go.ru/fast-go-team/project/config"
 )
 
 func Auth() gin.HandlerFunc {

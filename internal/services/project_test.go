@@ -4,14 +4,14 @@ import (
 	"errors"
 	"io"
 	"log/slog"
-	"project-service/internal/dto"
-	"project-service/internal/models"
-	mock_repositories "project-service/internal/repositories/mocks"
 	"reflect"
 	"testing"
 	"time"
 
 	gomock "github.com/golang/mock/gomock"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/dto"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/models"
+	mock_repositories "gitlab.fast-go.ru/fast-go-team/project/internal/repositories/mocks"
 )
 
 func ptr[T any](obj T) *T {

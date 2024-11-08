@@ -1,10 +1,10 @@
 package controllers
 
 import (
-	"project-service/internal/dto"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/dto"
 )
 
 func (h *ProjectHandler) CreateProject(c *gin.Context) {

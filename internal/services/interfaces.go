@@ -1,9 +1,9 @@
 package services
 
 import (
-	"project-service/internal/dto"
-	"project-service/internal/models"
-	"project-service/internal/repositories"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/dto"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/models"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/repositories"
 )
 
 type ProjectService interface {

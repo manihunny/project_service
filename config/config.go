@@ -2,8 +2,9 @@ package config
 
 import (
 	"fmt"
-	"github.com/caarlos0/env"
 	"log/slog"
+
+	"github.com/caarlos0/env"
 )
 
 type Config struct {

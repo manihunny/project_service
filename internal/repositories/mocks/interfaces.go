@@ -5,11 +5,11 @@
 package mock_repositories
 
 import (
-	models "project-service/internal/models"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
 	gorm "github.com/jinzhu/gorm"
+	models "gitlab.fast-go.ru/fast-go-team/project/internal/models"
 )
 
 // MockProjectRepository is a mock of ProjectRepository interface.

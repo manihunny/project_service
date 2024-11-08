@@ -2,7 +2,7 @@ package repositories
 
 import (
 	"github.com/jinzhu/gorm"
-	"project-service/internal/models"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/models"
 )
 
 type ProjectRepository interface {

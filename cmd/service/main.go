@@ -1,10 +1,11 @@
 package main
 
 import (
-	"project-service/config"
-	"project-service/internal/app"
 	"log/slog"
 	"os"
+
+	"gitlab.fast-go.ru/fast-go-team/project/config"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/app"
 )
 
 // TODO проверить логи

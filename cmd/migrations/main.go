@@ -1,10 +1,11 @@
 package main
 
 import (
-	"project-service/config"
-	"project-service/internal/models"
-	"project-service/internal/repositories"
 	"log"
+
+	"gitlab.fast-go.ru/fast-go-team/project/config"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/models"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/repositories"
 )
 
 func main() {

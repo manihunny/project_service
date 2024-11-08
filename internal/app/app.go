@@ -3,15 +3,15 @@ package app
 import (
 	"log/slog"
 	"os"
-	"project-service/config"
-	"project-service/internal/repositories"
-	"project-service/internal/services"
 	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/redis/go-redis/v9"
+	"gitlab.fast-go.ru/fast-go-team/project/config"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/repositories"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/services"
 )
 
 type App struct {

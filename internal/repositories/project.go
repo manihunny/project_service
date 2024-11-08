@@ -3,11 +3,11 @@ package repositories
 import (
 	"context"
 	"log/slog"
-	"project-service/internal/models"
 	"strconv"
 
 	"github.com/jinzhu/gorm"
 	"github.com/redis/go-redis/v9"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/models"
 )
 
 // Структура для работы с Postgres
@@ -103,7 +103,7 @@ func (repo *ProjectRepoRedis) Delete(id uint) error {
 func (repo *ProjectRepoRedis) FindByID(id uint) (*models.Project, error) {
 	var project models.Project
 	ctx := context.Background()
-	err := repo.RedisDB.Get(ctx, "project_" + strconv.FormatUint(uint64(id), 10)).Scan(&project)
+	err := repo.RedisDB.Get(ctx, "project_"+strconv.FormatUint(uint64(id), 10)).Scan(&project)
 	if err != nil {
 		err = repo.DB.First(&project, id).Error
 	}

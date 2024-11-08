@@ -2,10 +2,11 @@ package repositories
 
 import (
 	"fmt"
+	"log"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
-	"log"
-	"project-service/config"
+	"gitlab.fast-go.ru/fast-go-team/project/config"
 )
 
 func InitPostgres(config *config.Config) (*gorm.DB, error) {

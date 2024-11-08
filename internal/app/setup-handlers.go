@@ -2,13 +2,13 @@ package app
 
 import (
 	"log/slog"
-	"project-service/internal/controllers"
-	"project-service/internal/middleware"
-	"project-service/internal/services"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/controllers"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/middleware"
+	"gitlab.fast-go.ru/fast-go-team/project/internal/services"
 )
 
 func SetupHandlers(r *gin.Engine, projectService services.ProjectService, log *slog.Logger) {

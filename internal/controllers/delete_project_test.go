@@ -5,12 +5,12 @@ import (
 	"log/slog"
 	"net/http"
 	"net/http/httptest"
-	mock_service "project-service/internal/services/mocks"
 	"testing"
 
 	"github.com/gavv/httpexpect/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/mock/gomock"
+	mock_service "gitlab.fast-go.ru/fast-go-team/project/internal/services/mocks"
 )
 
 func TestProjectHandler_DeleteProject(t *testing.T) {

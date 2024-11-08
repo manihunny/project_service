@@ -2,7 +2,8 @@ package controllers
 
 import (
 	"log/slog"
-	"project-service/internal/services"
+
+	"gitlab.fast-go.ru/fast-go-team/project/internal/services"
 )
 
 type ProjectHandler struct {

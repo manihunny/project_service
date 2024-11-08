@@ -1,8 +1,6 @@
-module project-service
+module gitlab.fast-go.ru/fast-go-team/project
 
 go 1.23.0
-
-replace auth-service => ../auth-service
 
 require (
 	github.com/caarlos0/env v3.5.0+incompatible
@@ -12,9 +10,8 @@ require (
 	github.com/jinzhu/gorm v1.9.16
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
+	gitlab.fast-go.ru/fast-go-team/auth v0.0.0-20241104191803-527b5f996ac8
 )
-
-require auth-service v0.0.0-00010101000000-000000000000
 
 require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect

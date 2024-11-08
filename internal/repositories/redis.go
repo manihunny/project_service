@@ -3,7 +3,7 @@ package repositories
 import (
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/redis/go-redis/v9"
-	"project-service/config"
+	"gitlab.fast-go.ru/fast-go-team/project/config"
 )
 
 func InitRedis(config *config.Config) (*redis.Client, error) {
