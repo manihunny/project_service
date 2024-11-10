@@ -1,28 +1,28 @@
 services:
-  kafka:
-    image: bitnami/kafka:latest
-    environment:
-      - KAFKA_ENABLE_KRAFT=true
-      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CFG_PROCESS_ROLES=broker,controller
-      - KAFKA_CFG_NODE_ID=1
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@:9093
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-      - KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data # прокинуть на хост
-    ports:
-      - "9092:9092"
-      - "9093:9093"
+  # kafka:
+  #   image: bitnami/kafka:latest
+  #   environment:
+  #     - KAFKA_ENABLE_KRAFT=true
+  #     - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+  #     - KAFKA_CFG_PROCESS_ROLES=broker,controller
+  #     - KAFKA_CFG_NODE_ID=1
+  #     - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@:9093
+  #     - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+  #     - KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data # прокинуть на хост
+  #   ports:
+  #     - "9092:9092"
+  #     - "9093:9093"
 
-    hostname: localhost
-    networks:
-      - kafka-network
+  #   hostname: localhost
+  #   networks:
+  #     - kafka-network
 
   db:
     image: postgres
     environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     restart: always
