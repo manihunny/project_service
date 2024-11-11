@@ -42,20 +42,20 @@ services:
       start_period: 30s
       retries: 5
 
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-    ports:
-      - "${PGADMIN_PORT:-4444}:80"
-    depends_on:
-      - db
-    restart: always
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   environment:
+  #     - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+  #     - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+  #   ports:
+  #     - "${PGADMIN_PORT:-4444}:80"
+  #   depends_on:
+  #     - db
+  #   restart: always
     
 volumes:
   postgres-data:
 
-networks:
-  kafka-network:
-    driver: bridge
+# networks:
+#   kafka-network:
+#     driver: bridge

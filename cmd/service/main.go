@@ -16,7 +16,6 @@ import (
 func main() {
 	//загрузка конфигурации и установка уровня логирования
 	appConfig := config.NewAppConfig()
-	appConfig.LogLevel = "debug"
 
 	//logger
 	logger := configureLogger(appConfig.LogLevel)

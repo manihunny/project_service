@@ -2,6 +2,10 @@ FROM golang:1.23-alpine AS builder
 
 WORKDIR /app
 
+# Устанавливаем CompileDaemon для автоматической перезагрузки сервера при изменении исходного кода
+RUN go install github.com/githubnemo/CompileDaemon@latest
+
+# для работы с wait-for требуется bash, который по умолчанию не поставляется с alpine. Вместо этого используйте wait-for
 ADD https://raw.githubusercontent.com/eficode/wait-for/v2.1.0/wait-for /usr/local/bin/wait-for
 RUN chmod +rx /usr/local/bin/wait-for
 
