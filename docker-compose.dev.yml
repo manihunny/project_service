@@ -23,6 +23,8 @@ services:
       - POSTGRES_USER=${DB_USER}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
       - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     restart: always
@@ -32,6 +34,8 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     env_file: .env.dev
+    ports:
+      - "${SERVICE_PORT}:${SERVICE_PORT}"
     depends_on:
       - db
     restart: always

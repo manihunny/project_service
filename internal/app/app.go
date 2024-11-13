@@ -43,7 +43,7 @@ func (a *App) Initialize() {
 }
 func (a *App) Run() {
 	if err := a.Router.Run(a.Config.ServiceAddress); err != nil {
-		a.Log.Error("Failed to run auth service", slog.String("error", err.Error()))
+		a.Log.Error("Failed to run project service", slog.String("error", err.Error()))
 	}
 }
 
