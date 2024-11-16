@@ -15,10 +15,10 @@ type Config struct {
 	DBUser                 string `env:"DB_USER" envDefault:"postgres"`
 	DBPassword             string `env:"DB_PASSWORD" envDefault:"mysecretpassword"`
 	DBName                 string `env:"DB_NAME" envDefault:"mydb"`
-	RedisDBHost            string `env:"REDIS_DB_HOST" envDefault:"localhost"`
-	RedisDBPort            string `env:"REDIS_DB_PORT" envDefault:"5432"`
-	RedisDBUser            string `env:"REDIS_DB_USER" envDefault:"redis"`
-	RedisDBPassword        string `env:"REDIS_DB_PASSWORD" envDefault:"mysecretpassword"`
+	RedisHost              string `env:"REDIS_HOST" envDefault:"localhost"`
+	RedisPort              string `env:"REDIS_PORT" envDefault:"5432"`
+	// RedisUsername          string `env:"REDIS_USERNAME" envDefault:"default"`
+	RedisPassword          string `env:"REDIS_PASSWORD" envDefault:"mysecretpassword"`
 	AuthServiceGRPCAddress string `env:"AUTH_SERVICE_GRPC_ADDRESS" envDefault:"localhost:50051"`
 }
 
