@@ -83,13 +83,13 @@ func (a *App) setupRepositories() {
 	a.ProjectRepo = repositories.NewProjectRepoWithRedis(
 		a.Database,
 		a.RedisDatabase,
-		a.Log.With(slog.String("repository", "project")))
+		a.Log.With(slog.String("service", "project"), slog.String("module", "repository")))
 }
 
 func (a *App) setupServices() {
-	a.ProjectService = services.NewProjectServiceGORM(a.ProjectRepo, a.Log.With(slog.String("service", "project")))
+	a.ProjectService = services.NewProjectServiceGORM(a.ProjectRepo, a.Log.With(slog.String("service", "project"), slog.String("module", "service")))
 }
 
 func (a *App) setupHandlersAndRoutes() {
-	SetupHandlers(a.Router, a.ProjectService, a.Log)
+	SetupHandlers(a.Router, a.ProjectService, a.Log.With(slog.String("service", "project"), slog.String("module", "transport")))
 }

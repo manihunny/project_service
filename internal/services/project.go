@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"log/slog"
 
 	"gitlab.fast-go.ru/fast-go-team/project/internal/dto"
@@ -19,36 +20,62 @@ func NewProjectServiceGORM(repo repositories.ProjectRepository, logger *slog.Log
 
 func (projectService *ProjectServiceGORM) CreateProject(projectDTO *dto.ProjectDTO) error {
 	var project models.Project
-
 	// Маппинг данных из DTO в модель
 	if err := projectDTO.Map(&project); err != nil {
+		projectService.Log.Error(fmt.Sprintf("Failed to create project. Error: %s", err.Error()), slog.Any("project_data", project))
 		return err
 	}
-	return projectService.Repo.Create(&project)
+	if err := projectService.Repo.Create(&project); err != nil {
+		projectService.Log.Error(fmt.Sprintf("Failed to create project. Error: %s", err.Error()), slog.Any("project_data", project))
+		return err
+	}
+	projectService.Log.Debug("Project was created", slog.Any("project_data", project))
+	return nil
 }
 
 func (projectService *ProjectServiceGORM) UpdateProject(id uint, projectDTO *dto.ProjectDTO) error {
 	project, err := projectService.Repo.FindByID(id)
 	if err != nil {
+		projectService.Log.Error(fmt.Sprintf("Failed to update project. Error: %s", err.Error()), slog.Any("project_data", project))
 		return err
 	}
 	// Маппинг данных из DTO в модель
-	if err := projectDTO.Map(project); err != nil {
+	if err = projectDTO.Map(project); err != nil {
+		projectService.Log.Error(fmt.Sprintf("Failed to update project. Error: %s", err.Error()), slog.Any("project_data", project))
 		return err
 	}
-	return projectService.Repo.Update(project)
+	if err = projectService.Repo.Update(project); err != nil {
+		projectService.Log.Error(fmt.Sprintf("Failed to update project. Error: %s", err.Error()), slog.Any("project_data", project))
+		return err
+	}
+	projectService.Log.Debug("Project was updated", slog.Any("project_data", project))
+	return nil
 }
 
 func (projectService *ProjectServiceGORM) DeleteProject(id uint) error {
-	return projectService.Repo.Delete(id)
+	if err := projectService.Repo.Delete(id); err != nil {
+		projectService.Log.Error(fmt.Sprintf("Failed to delete project. Error: %s", err.Error()), slog.Any("project_id", id))
+		return err
+	}
+	projectService.Log.Debug("Project was deleted", slog.Any("project_id", id))
+	return nil
 }
 
 func (projectService *ProjectServiceGORM) GetProjectByID(id uint) (*models.Project, error) {
-	return projectService.Repo.FindByID(id)
+	project, err := projectService.Repo.FindByID(id)
+	if err != nil {
+		projectService.Log.Error(fmt.Sprintf("Failed to get project. Error: %s", err.Error()), slog.Any("project_id", id))
+	}
+	projectService.Log.Debug("Project was deleted from DB", slog.Uint64("project_id", uint64(id)))
+	return project, err
 }
 
 func (projectService *ProjectServiceGORM) GetProjects() ([]models.Project, error) {
-	return projectService.Repo.FindAll()
+	projects, err := projectService.Repo.FindAll()
+	if err != nil {
+		projectService.Log.Error(fmt.Sprintf("Failed to get all projects. Error: %s", err.Error()))
+	}
+	return projects, err
 }
 
 func (s *ProjectServiceGORM) GetRepo() repositories.ProjectRepository {
