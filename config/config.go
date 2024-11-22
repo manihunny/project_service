@@ -17,9 +17,9 @@ type Config struct {
 	DBName                 string `env:"DB_NAME" envDefault:"mydb"`
 	RedisHost              string `env:"REDIS_HOST" envDefault:"localhost"`
 	RedisPort              string `env:"REDIS_PORT" envDefault:"5432"`
-	// RedisUsername          string `env:"REDIS_USERNAME" envDefault:"default"`
 	RedisPassword          string `env:"REDIS_PASSWORD" envDefault:"mysecretpassword"`
 	AuthServiceGRPCAddress string `env:"AUTH_SERVICE_GRPC_ADDRESS" envDefault:"localhost:50051"`
+	AuthEnabled            string `env:"AUTH_ENABLED" envDefault:"true"`
 }
 
 func NewAppConfig() *Config {

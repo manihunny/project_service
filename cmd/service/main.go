@@ -8,11 +8,6 @@ import (
 	"gitlab.fast-go.ru/fast-go-team/project/internal/app"
 )
 
-// TODO проверить логи
-// TODO разобраться с портами
-// TODO покрыть тестами
-// TODO выпилить логику из бэкенда
-
 func main() {
 	//загрузка конфигурации и установка уровня логирования
 	appConfig := config.NewAppConfig()
