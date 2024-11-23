@@ -18,6 +18,7 @@ type Config struct {
 	RedisHost              string `env:"REDIS_HOST" envDefault:"localhost"`
 	RedisPort              string `env:"REDIS_PORT" envDefault:"5432"`
 	RedisPassword          string `env:"REDIS_PASSWORD" envDefault:"mysecretpassword"`
+	RedisEnabled           string `env:"REDIS_ENABLED" envDefault:"true"`
 	AuthServiceGRPCAddress string `env:"AUTH_SERVICE_GRPC_ADDRESS" envDefault:"localhost:50051"`
 	AuthEnabled            string `env:"AUTH_ENABLED" envDefault:"true"`
 }

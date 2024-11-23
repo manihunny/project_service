@@ -3,9 +3,7 @@ package app
 import (
 	"log/slog"
 	"os"
-	"time"
 
-	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/redis/go-redis/v9"
@@ -50,16 +48,6 @@ func (a *App) Run() {
 func (a *App) setupRouter() {
 	r := gin.Default()
 	r.Use(gin.Recovery())
-	//TODO наверное вынести и это в конфиг
-	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://fast-go.ru", "https://fast-go.ru"},
-		AllowMethods:     []string{"POST"},
-		AllowHeaders:     []string{"Authorization"},
-		ExposeHeaders:    []string{"Authorization"},
-		AllowCredentials: true,
-		MaxAge:           12 * time.Hour,
-	}))
-
 	a.Router = r
 }
 
@@ -80,10 +68,20 @@ func (a *App) setupDatabase() {
 }
 
 func (a *App) setupRepositories() {
-	a.ProjectRepo = repositories.NewProjectRepoWithRedis(
-		a.Database,
-		a.RedisDatabase,
-		a.Log.With(slog.String("service", "project"), slog.String("module", "repository")))
+	repoLogger := a.Log.With(slog.String("service", "project"), slog.String("module", "repository"))
+	if a.Config.RedisEnabled == "true" {
+		a.ProjectRepo = repositories.NewProjectRepoWithRedis(
+			&repositories.ProjectRepoPostgres{DB: a.Database, Log: repoLogger},
+			a.RedisDatabase,
+			repoLogger,
+		)
+	} else {
+		a.ProjectRepo = repositories.NewProjectRepoPostgres(
+			a.Database,
+			repoLogger,
+		)
+	}
+	
 }
 
 func (a *App) setupServices() {

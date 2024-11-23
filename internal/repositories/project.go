@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"log/slog"
 	"strconv"
@@ -74,41 +73,21 @@ func (repo *ProjectRepoPostgres) GetDB() *gorm.DB {
 
 // Структура для работы с Redis (надстройка для Postgres)
 type ProjectRepoRedis struct {
-	DB      *gorm.DB
+	DBRepo  *ProjectRepoPostgres
 	RedisDB *redis.Client
 	Log     *slog.Logger
 }
 
-func NewProjectRepoWithRedis(db *gorm.DB, redisDB *redis.Client, logger *slog.Logger) ProjectRepository {
-	return &ProjectRepoRedis{DB: db, RedisDB: redisDB, Log: logger}
-}
-
-func setWithMarshal(redisClient *redis.Client, key string, value interface{}) error {
-	ctx := context.Background()
-	data, err := json.Marshal(value)
-	if err != nil {
-		return err
-	}
-	return redisClient.Set(ctx, key, data, 0).Err()
-}
-
-func getWithUnmarshal(redisClient *redis.Client, key string, dest interface{}) error {
-	ctx := context.Background()
-	var data []byte
-	err := redisClient.Get(ctx, key).Scan(&data)
-	if err != nil {
-		return err
-	}
-	return json.Unmarshal(data, &dest)
+func NewProjectRepoWithRedis(dbRepo *ProjectRepoPostgres, redisDB *redis.Client, logger *slog.Logger) ProjectRepository {
+	return &ProjectRepoRedis{DBRepo: dbRepo, RedisDB: redisDB, Log: logger}
 }
 
 func (repo *ProjectRepoRedis) Create(project *models.Project) error {
 	// Create record in DB
-	if err := repo.DB.Create(project).Error; err != nil {
-		repo.Log.Error(fmt.Sprintf("Failed to create project in DB. Error: %s", err.Error()), slog.Any("project_data", project))
+	err := repo.DBRepo.Create(project)
+	if err != nil {
 		return err
 	}
-	repo.Log.Debug("Project was created in DB", slog.Any("project_data", project))
 
 	// Create record in Redis
 	if err := setWithMarshal(repo.RedisDB, "project_"+strconv.FormatUint(uint64(project.ID), 10), project); err != nil {
@@ -119,11 +98,10 @@ func (repo *ProjectRepoRedis) Create(project *models.Project) error {
 
 func (repo *ProjectRepoRedis) Update(project *models.Project) error {
 	// Update record in DB
-	if err := repo.DB.Save(project).Error; err != nil {
-		repo.Log.Error(fmt.Sprintf("Failed to update project in DB. Error: %s", err.Error()), slog.Any("project_data", project))
+	err := repo.DBRepo.Update(project)
+	if err != nil {
 		return err
 	}
-	repo.Log.Debug("Project was updated in DB", slog.Any("project_data", project))
 
 	// Update record in Redis
 	if err := setWithMarshal(repo.RedisDB, "project_"+strconv.FormatUint(uint64(project.ID), 10), project); err != nil {
@@ -134,11 +112,10 @@ func (repo *ProjectRepoRedis) Update(project *models.Project) error {
 
 func (repo *ProjectRepoRedis) Delete(id uint) error {
 	// Delete record from DB
-	if err := repo.DB.Delete(&models.Project{}, id).Error; err != nil {
-		repo.Log.Error(fmt.Sprintf("Failed to delete project from DB. Error: %s", err.Error()), slog.Uint64("project_id", uint64(id)))
+	err := repo.DBRepo.Delete(id)
+	if err != nil {
 		return err
 	}
-	repo.Log.Debug("Project was deleted from DB", slog.Uint64("project_id", uint64(id)))
 
 	// Delete record from Redis
 	ctx := context.Background()
@@ -154,11 +131,10 @@ func (repo *ProjectRepoRedis) FindByID(id uint) (*models.Project, error) {
 	// Try get record from Redis, otherwise get from DB and create record in Redis
 	err := getWithUnmarshal(repo.RedisDB, "project_"+strconv.FormatUint(uint64(id), 10), &project)
 	if err != nil {
-		if err = repo.DB.First(&project, id).Error; err != nil {
-			repo.Log.Error(fmt.Sprintf("Failed to get project. Error: %s", err.Error()), slog.Uint64("project_id", uint64(id)))
-			return &project, err
+		project, err := repo.DBRepo.FindByID(id)
+		if err != nil {
+			return project, err
 		}
-		repo.Log.Debug("Project was received from DB", slog.Uint64("project_id", uint64(id)))
 
 		err = setWithMarshal(repo.RedisDB, "project_"+strconv.FormatUint(uint64(project.ID), 10), project)
 		if err != nil {
@@ -169,15 +145,10 @@ func (repo *ProjectRepoRedis) FindByID(id uint) (*models.Project, error) {
 }
 
 func (repo *ProjectRepoRedis) FindAll() ([]models.Project, error) {
-	var projects []models.Project
-	if err := repo.DB.Find(&projects).Error; err != nil {
-		repo.Log.Error(fmt.Sprintf("Failed to get projects. Error: %s", err.Error()))
-	}
-	repo.Log.Debug("Projects was received from DB")
-	return projects, nil
+	return repo.DBRepo.FindAll()
 }
 
 // GetDB дает доступ к полю DB
 func (repo *ProjectRepoRedis) GetDB() *gorm.DB {
-	return repo.DB
+	return repo.DBRepo.DB
 }

@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 
@@ -20,7 +22,7 @@ func InitRedis(config *config.Config) (*redis.Client, error) {
 		dbHost, dbPort, dbUser, dbPassword)
 
 	log.Printf("Connecting to Redis with URI: %s", dbURI)
-	
+
 	// Подключение к базе данных
 	db := redis.NewClient(&redis.Options{
 		Addr:     dbHost + ":" + dbPort,
@@ -30,4 +32,23 @@ func InitRedis(config *config.Config) (*redis.Client, error) {
 	})
 
 	return db, nil
+}
+
+func setWithMarshal(redisClient *redis.Client, key string, value interface{}) error {
+	ctx := context.Background()
+	data, err := json.Marshal(value)
+	if err != nil {
+		return err
+	}
+	return redisClient.Set(ctx, key, data, 0).Err()
+}
+
+func getWithUnmarshal(redisClient *redis.Client, key string, dest interface{}) error {
+	ctx := context.Background()
+	var data []byte
+	err := redisClient.Get(ctx, key).Scan(&data)
+	if err != nil {
+		return err
+	}
+	return json.Unmarshal(data, &dest)
 }

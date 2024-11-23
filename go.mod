@@ -5,7 +5,6 @@ go 1.23.0
 require (
 	github.com/caarlos0/env v3.5.0+incompatible
 	github.com/gavv/httpexpect/v2 v2.16.0
-	github.com/gin-contrib/cors v1.7.2
 	github.com/gin-gonic/gin v1.10.0
 	github.com/jinzhu/gorm v1.9.16
 	github.com/swaggo/files v1.0.1
