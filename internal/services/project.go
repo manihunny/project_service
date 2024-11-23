@@ -66,7 +66,7 @@ func (projectService *ProjectServiceGORM) GetProjectByID(id uint) (*models.Proje
 	if err != nil {
 		projectService.Log.Error(fmt.Sprintf("Failed to get project. Error: %s", err.Error()), slog.Any("project_id", id))
 	}
-	projectService.Log.Debug("Project was deleted from DB", slog.Uint64("project_id", uint64(id)))
+	projectService.Log.Debug("Project was received from DB", slog.Uint64("project_id", uint64(id)))
 	return project, err
 }
 
@@ -75,6 +75,7 @@ func (projectService *ProjectServiceGORM) GetProjects() ([]models.Project, error
 	if err != nil {
 		projectService.Log.Error(fmt.Sprintf("Failed to get all projects. Error: %s", err.Error()))
 	}
+	projectService.Log.Debug("Projects was received from DB")
 	return projects, err
 }
 
