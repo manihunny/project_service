@@ -1,0 +1,17 @@
+version: '3'
+
+tasks:
+  start-dev:
+    desc: "Запуск в режиме разработки"
+    cmds:
+      - docker-compose -f docker-compose.dev.yml --env-file .env.dev up --build
+
+  stop-dev:
+    desc: "Остановка в режиме разработки"
+    cmds:
+      - docker-compose -f docker-compose.dev.yml --env-file .env.dev down
+
+  vendor:
+    desc: "Скачать зависимости"
+    cmds:
+      - go mod vendor
